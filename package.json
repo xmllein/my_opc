@@ -1,0 +1,8 @@
+{
+  "name": "opc-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {"dev": "next dev --hostname 127.0.0.1", "build": "next build", "start": "next start --hostname 127.0.0.1", "typecheck": "tsc --noEmit"},
+  "dependencies": {"next": "^16.4.4", "react": "^19.2.0", "react-dom": "^19.2.0", "antd": "^5.29.0", "@ant-design/web3": "^1.26.1", "@ant-design/web3-wagmi": "^2.13.1", "@tanstack/react-query": "^5.90.0", "wagmi": "^2.19.0", "viem": "^2.38.0", "lucide-react": "^0.468.0"},
+  "devDependencies": {"typescript": "^5.9.0", "@types/node": "^22.19.0", "@types/react": "^19.2.0", "@types/react-dom": "^19.2.0"}
+}
