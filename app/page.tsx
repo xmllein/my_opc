@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { ConfigProvider, Modal } from 'antd';
 import { ArrowUpRight, ArrowRight, ArrowUp, Sparkles, Search, PenTool, ChartNoAxesCombined, PanelsTopLeft, Layers3, Presentation, Check, ChevronRight, Globe2, ShieldCheck, Compass, CircleHelp, Menu, X, Bot, FileText, MousePointer2, Network, Cpu, Plus, ScanLine, Command, CornerDownLeft, WalletCards } from 'lucide-react';
 import { categories, templates, type Category, type Template } from '@/lib/catalog';
@@ -10,7 +11,7 @@ const faqItems = [
   ['OPC 和普通 AI 对话有什么不同？', 'OPC 以完成一项工作为起点。研究、创作和执行由不同 Agent 分工协作，把中间过程整理成可追踪的任务，最终交付一份可以继续使用的成果。'],
   ['我需要提前学会写提示词吗？', '不需要。你只需要描述想完成的事，补充必要背景和期望结果。OPC 会通过提问帮助你把目标说清楚，再组织合适的 AI 机组。'],
   ['连接钱包后会发生什么？', '钱包连接只会授权网站读取你的公开地址。连接本身不产生链上交易或费用；任何后续签名与交易，都需要在钱包中由你单独确认。当前展示版不发起签名或交易。'],
-  ['现在可以创建和执行真实任务吗？', '当前是 OPC 首版页面展示，供你了解任务类型和协作方式。钱包连接已经接入，任务创建、模型执行、成果交付和套餐订阅尚未开放。'],
+  ['现在可以创建和执行真实任务吗？', '你可以进入工作台，体验创建内容任务、查看机组分工、编辑和确认草稿、导出成果。当前是保存在浏览器内的交互演示，尚未接入 AI 模型、实时检索或发布平台。'],
 ];
 export default function Home() {
   const [category, setCategory] = useState<Category>('all');
@@ -18,7 +19,6 @@ export default function Home() {
   const [selected, setSelected] = useState<Template | null>(null);
   const [mobileNav, setMobileNav] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);
-  const [notice, setNotice] = useState(false);
   const [question, setQuestion] = useState<number | null>(null);
   const filtered = templates.filter(t => category === 'all' || t.category === category);
   function exploreGoal() {
@@ -29,7 +29,7 @@ export default function Home() {
     <header className="site-header"><div className="header-inner">
       <a href="#home" className="brand" aria-label="OPC Orange Pilot Crew 首页"><img src="/brand/OPC-compact-color.svg" width="112" height="34" alt="OPC" /><span className="brand-divider" /><span className="brand-descriptor">AI 工作空间</span></a>
       <nav className={`main-nav ${mobileNav ? 'is-open' : ''}`} aria-label="主导航"><a href="#tasks" onClick={() => setMobileNav(false)}>任务广场</a><a href="#workflow" onClick={() => setMobileNav(false)}>工作方式</a><a href="#ecosystem" onClick={() => setMobileNav(false)}>OPC 生态<ArrowUpRight size={12} /></a></nav>
-      <div className="header-actions"><Wallet /><span className="action-divider" /><button className="button button-dark header-workspace" onClick={() => setNotice(true)}>进入工作台<ArrowUpRight size={15} /></button><button className="mobile-menu icon-button" aria-label={mobileNav ? '关闭菜单' : '打开菜单'} aria-expanded={mobileNav} onClick={() => setMobileNav(!mobileNav)}>{mobileNav ? <X size={21} /> : <Menu size={21} />}</button></div>
+      <div className="header-actions"><Wallet /><span className="action-divider" /><Link className="button button-dark header-workspace" href="/workspace">进入工作台<ArrowUpRight size={15} /></Link><button className="mobile-menu icon-button" aria-label={mobileNav ? '关闭菜单' : '打开菜单'} aria-expanded={mobileNav} onClick={() => setMobileNav(!mobileNav)}>{mobileNav ? <X size={21} /> : <Menu size={21} />}</button></div>
     </div></header>
     <main id="home">
       <section className="hero section-width"><div className="hero-copy">
@@ -67,10 +67,10 @@ export default function Home() {
       <section className="faq-section section-width" id="faq"><div><div className="eyebrow"><span className="tiny-square" />04 / GOOD TO KNOW</div><h2>开始前，<br />你可能想知道。</h2><p>把疑问说清楚，<br />让第一步更轻松。</p></div><div className="faq-list">{faqItems.map(([title, content]) => <details key={title}><summary>{title}<Plus size={18} /></summary><p>{content}</p></details>)}</div></section>
       <section className="final-cta section-width"><div><div className="eyebrow">READY FOR YOUR NEXT?</div><h2>下一站，把想法变成<span>完成。</span></h2><p>一个目标，一支机组，一起出发。</p></div><a href="#tasks" className="button button-orange button-large">找到你的第一个任务<ArrowUpRight size={19} /></a><img src="/brand/OPC-mark-color.svg" alt="" /></section>
     </main>
-    <footer className="site-footer section-width"><div className="footer-top"><a className="footer-brand" href="#home"><img src="/brand/OPC-compact-color.svg" width="103" height="31" alt="OPC" /><span>YOU PILOT. WE CREW.</span></a><p>Orange Pilot Crew<br /><span>让每一个想法，都有一支机组。</span></p><div><a href="#tasks">任务广场</a><a href="#workflow">工作方式</a><a href="https://library.orangepilotcrew.com/en/" target="_blank" rel="noreferrer">品牌资料库<ArrowUpRight size={13} /></a></div><a className="back-top" href="#home" aria-label="返回顶部"><ArrowUp size={18} /></a></div><div className="footer-bottom"><span>© 2026 Orange Pilot Crew. All rights reserved.</span><span className="preview-note"><span />页面展示版 · 任务功能即将开放</span><span>DESIGNED FOR WORK. BUILT AROUND YOU.</span></div></footer>
+    <footer className="site-footer section-width"><div className="footer-top"><a className="footer-brand" href="#home"><img src="/brand/OPC-compact-color.svg" width="103" height="31" alt="OPC" /><span>YOU PILOT. WE CREW.</span></a><p>Orange Pilot Crew<br /><span>让每一个想法，都有一支机组。</span></p><div><a href="#tasks">任务广场</a><a href="#workflow">工作方式</a><a href="https://library.orangepilotcrew.com/en/" target="_blank" rel="noreferrer">品牌资料库<ArrowUpRight size={13} /></a></div><a className="back-top" href="#home" aria-label="返回顶部"><ArrowUp size={18} /></a></div><div className="footer-bottom"><span>© 2026 Orange Pilot Crew. All rights reserved.</span><span className="preview-note"><span />工作台交互演示 · 现已开放</span><span>DESIGNED FOR WORK. BUILT AROUND YOU.</span></div></footer>
     <button className={`help-button ${helpOpen ? 'opened' : ''}`} onClick={() => setHelpOpen(!helpOpen)} aria-label={helpOpen ? '关闭领航助手' : '打开领航助手'} aria-expanded={helpOpen}>{helpOpen ? <X size={21} /> : <><Sparkles size={19} /><span>领航助手</span></>}</button>
     {helpOpen && <aside className="help-panel" aria-label="领航助手"><div className="help-header"><span className="assistant-icon"><Bot size={20} /></span><div><strong>你的领航助手</strong><span>帮你找到合适的起点</span></div><span className="status-dot" /></div><p>你好，机长。<br />想先了解哪一部分？</p>{faqItems.slice(0, 3).map(([title], i) => <button className="help-question" key={title} onClick={() => setQuestion(question === i ? null : i)}>{title}<ChevronRight size={14} />{question === i && <span>{faqItems[i][1]}</span>}</button>)}<a href="#tasks" onClick={() => setHelpOpen(false)}>带我看看可以做什么<ArrowRight size={14} /></a><small>产品引导 · 非实时 AI 对话</small></aside>}
-    <Modal open={!!selected} onCancel={() => setSelected(null)} footer={null} width={620} centered title={null} className="task-modal">{selected && <><div className="modal-eyebrow"><Sparkles size={15} />任务预览<span>即将开放</span></div><h2>{selected.title}</h2><p className="modal-description">{selected.description}</p><div className="example-goal"><span>你可以这样开始</span><p>“{goal.trim() || selected.prompt}”</p></div><h4>这支机组，将如何协作</h4><div className="modal-crew">{selected.crew.map((agent, i) => <span key={agent}><span>{String(i + 1).padStart(2, '0')}</span>{agent}</span>)}</div><ol className="modal-steps">{selected.steps.map(step => <li key={step}><Check size={15} />{step}</li>)}</ol><div className="modal-output"><FileText size={20} /><div><span>期望交付</span><strong>{selected.output}</strong></div><ShieldCheck size={20} /></div><p className="modal-note"><CircleHelp size={14} />当前为任务流程介绍，尚未创建任务或调用 AI 模型。</p><button className="button button-dark modal-close" onClick={() => setSelected(null)}>了解了，继续探索<ArrowRight size={16} /></button></>}</Modal>
-    <Modal open={notice} onCancel={() => setNotice(false)} footer={null} centered width={440}><div className="workspace-notice"><span className="notice-icon"><Compass size={30} /></span><div className="eyebrow">YOUR WORKSPACE IS NEXT</div><h2>工作台，正在准备就绪。</h2><p>这里将汇集你的任务、AI 机组与交付成果。<br />现在，先找找你想交给机组的第一件事。</p><a className="button button-orange" href="#tasks" onClick={() => setNotice(false)}>探索任务广场<ArrowRight size={16} /></a><small>当前为页面展示版，任务功能尚未开放。</small></div></Modal>
+    <Modal open={!!selected} onCancel={() => setSelected(null)} footer={null} width={620} centered title={null} className="task-modal">{selected && <><div className="modal-eyebrow"><Sparkles size={15} />任务预览<span>了解协作方式</span></div><h2>{selected.title}</h2><p className="modal-description">{selected.description}</p><div className="example-goal"><span>你可以这样开始</span><p>“{goal.trim() || selected.prompt}”</p></div><h4>这支机组，将如何协作</h4><div className="modal-crew">{selected.crew.map((agent, i) => <span key={agent}><span>{String(i + 1).padStart(2, '0')}</span>{agent}</span>)}</div><ol className="modal-steps">{selected.steps.map(step => <li key={step}><Check size={15} />{step}</li>)}</ol><div className="modal-output"><FileText size={20} /><div><span>期望交付</span><strong>{selected.output}</strong></div><ShieldCheck size={20} /></div><p className="modal-note"><CircleHelp size={14} />工作台已开放内容协作演示，支持编辑和导出模板草稿，尚未接入 AI 模型。</p><Link className="button button-dark modal-close" href={`/workspace?goal=${encodeURIComponent(goal.trim() || selected.prompt)}`}>进入工作台，体验协作<ArrowRight size={16} /></Link></>}</Modal>
+
   </ConfigProvider>;
 }
