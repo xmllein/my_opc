@@ -5,3 +5,4 @@ data/
 !.env.example
 *.tsbuildinfo
 .DS_Store
+.vercel
